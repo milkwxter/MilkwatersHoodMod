@@ -1,0 +1,7 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "weed/prop_cannabis_leaf_dprop_cannabis_leaf_invisible"
+	"$alphatest" 1
+	"$nocull" "1"
+	"$nodraw" "1"
+}

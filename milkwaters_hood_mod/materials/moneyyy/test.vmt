@@ -1,0 +1,15 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "moneyyy/test"
+	"$bumpmap" "moneyyy/normaliy_test"
+
+	$nocull 1		
+	"$phong" "1"
+	"$phongexponent" "4"
+	"$phongalbedotint" "1"
+	"$phongboost" "0.5"
+	"$phongfresnelranges"	"[.3 .3 .3]"
+
+}
+
+

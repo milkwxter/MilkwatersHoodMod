@@ -1,0 +1,18 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "firehose/firehose_b"
+	"$translucent" 1
+	"$bumpmap"     "firehose/firehose_b_normal"
+	"$normalmapalphaenvmapmask" 1
+
+	
+	"$phong"                    1
+	"$phongboost"               2
+	"$phongfresnelranges"       "[0.3 0.7 1]"
+	"$phongexponent"            "10"
+    "$phongalbedotint"          1
+	
+
+
+	"$halflambert" "1"	
+}

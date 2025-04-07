@@ -1,0 +1,5 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "weed/prop_weed_trim_dprop_weed_trim_a"
+	"$alphatest" 1
+}

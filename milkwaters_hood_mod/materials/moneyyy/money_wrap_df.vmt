@@ -1,0 +1,18 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "moneyyy/money_wrap_df"
+	"$bumpmap" "moneyyy/money_wrap_nm"
+
+	$phong 1
+	$PhongExponent 17
+	"$phongboost" "1"
+	"$phongfresnelranges" "[.4 .4 .4]"
+	"$ambientocclusion" "1"
+	"$halflambert" "1"
+	$rimlight 	1
+	$nocull 1								
+	$rimlightexponent 10						
+	$rimlightboost .3
+}
+
+
