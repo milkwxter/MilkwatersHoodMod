@@ -3,6 +3,6 @@
     "$basetexture" "particles/crystal"
 	"$translucent" "1"
 	"$vertexalpha" "1"
-    "$ignorez" "1"
+    "$ignorez" "0"
     "$nocull" "1"
 }

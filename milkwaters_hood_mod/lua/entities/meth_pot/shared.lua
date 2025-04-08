@@ -15,6 +15,7 @@ ENT.Meth_HydrochloricAcid = 0
 ENT.Meth_Sudafed = 0
 ENT.Meth_Cooking = false
 ENT.Meth_CookTime = 0
+ENT.Meth_CookingSound = nil
 
 if SERVER then
 	-- function to make it easy to send networked vars to client
@@ -46,11 +47,12 @@ if SERVER then
 	
 	-- called when someone presses "E" on it
 	function ENT:Use(activator)
-		-- massive wall of if statements
+		-- if product is ready
 		if self.Meth_Cooking and self.Meth_CookTime >= 120 then
 			-- stop cooking
 			self.Meth_Cooking = false
 			self.Meth_CookTime = 0
+			
 			-- spawn a meth crystal
 			local meth = ents.Create("meth_crystal_norm")
 			meth:SetPos(self:GetPos() + Vector(0, 0, 50))
@@ -61,14 +63,19 @@ if SERVER then
 			if IsValid(phys) then
 				phys:Wake()
 			end
+			
 			-- network the variables, needed for the client to see the 3d2d text
 			self:SendMethVarsToClient()
+			
 			-- return early
 			return
 		end
+		-- if product is not ready but we are cooking
 		if self.Meth_Cooking then
+			self.Meth_CookingSound = self:StartLoopingSound("loop_boiling.wav")
 			return
 		end
+		-- if we are low on materials
 		if self.Meth_HydrochloricAcid < 25 then
 			return
 		end
@@ -94,9 +101,15 @@ if SERVER then
 		-- set next think time
 		self:NextThink(CurTime() + 1)
 		
+		if self.Meth_Cooking and self.Meth_CookTime >= 120 then
+			self:StopLoopingSound(self.Meth_CookingSound)
 		-- only cook while its ON and while the timer is less than 120
-		if self.Meth_Cooking and self.Meth_CookTime < 120 then
+		elseif self.Meth_Cooking and self.Meth_CookTime < 120 then
 			self.Meth_CookTime = self.Meth_CookTime + 1
+			-- effects
+			local effectData = EffectData()
+			effectData:SetOrigin(self:GetPos())
+			util.Effect("meth_smoke", effectData)
 		end
 		
 		-- network the variables, needed for the client to see the 3d2d text
@@ -107,10 +120,12 @@ if SERVER then
 	
 	-- called when a entity collides with the pot
     function ENT:StartTouch(ent)
+		-- ignore collision while cooking
 		if self.Meth_Cooking then
 			return
 		end
 	
+		-- if not cooking, take the materials
         if IsValid(ent) then
             if ent:GetClass() == "meth_acid" then
 				self.Meth_HydrochloricAcid = self.Meth_HydrochloricAcid + 200
