@@ -2,7 +2,7 @@ AddCSLuaFile()
 
 ENT.Type = "anim"
 ENT.Base = "base_gmodentity"
-ENT.PrintName = "Drugs - Weed Brick"
+ENT.PrintName = "Drugs - Meth Bag"
 ENT.Author = "Milkwater"
 ENT.Category = "DarkRP"
 ENT.Spawnable = true
@@ -13,7 +13,7 @@ if SERVER then
 	-- called when you spawn it
 	function ENT:Initialize()
 		-- initialize model
-		self:SetModel("models/weed/weed_big_bag01/weed_big_bag01.mdl")
+		self:SetModel("models/meth/meth_bags/brown_sky.mdl")
 		self:PhysicsInit(SOLID_VPHYSICS)
 		self:SetMoveType(MOVETYPE_VPHYSICS)
 		self:SetSolid(SOLID_VPHYSICS)
@@ -36,8 +36,8 @@ if SERVER then
 			-- effects
 			local effectData = EffectData()
 			effectData:SetOrigin(self:GetPos())
-			util.Effect("weed_boom", effectData)
-			self:EmitSound("weed_rustle.wav")
+			util.Effect("meth_boom_norm", effectData)
+			self:EmitSound("lighter_smoke.wav")
 			
 			-- remove self
 			self:Remove()

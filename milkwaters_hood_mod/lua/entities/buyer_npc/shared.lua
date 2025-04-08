@@ -17,6 +17,7 @@ if SERVER then
 	local buyList = {
 		{name = "Weed Brick", class = "weed_brick", price = 300},
 		{name = "Stolen Cash", class = "money_pile", price = 150},
+		{name = "Meth Bag", class = "meth_crystal_norm", price = 750},
 	}
 	
 	-- initialize entity
@@ -56,7 +57,7 @@ if SERVER then
 			for key, value in ipairs(pocketItems) do
 				for itemKey, itemValue in ipairs(buyList) do
 					if value.class == itemValue.class then
-						Notify(ply, "You sold a " .. itemValue.name .. " and got paid $" .. itemValue.price .. "!")
+						Notify(ply, "You sold '" .. itemValue.name .. "' and got paid $" .. itemValue.price .. "!")
 						ply:removePocketItem(key)
 						ply:addMoney(itemValue.price)
 						itemsSold = itemsSold + 1

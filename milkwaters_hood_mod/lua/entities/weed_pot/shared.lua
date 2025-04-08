@@ -50,7 +50,7 @@ if SERVER then
 		-- set next think time
 		self:NextThink(CurTime() + 1)
 		
-		-- stop after growth 8
+		-- stop after growth 3
 		if self.PlantStage >= 3 then return end
 		
 		-- wait for water
