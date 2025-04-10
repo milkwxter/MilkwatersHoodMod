@@ -16,6 +16,9 @@ ENT.Meth_Sudafed = 0
 ENT.Meth_Cooking = false
 ENT.Meth_CookTime = 0
 ENT.Meth_CookingSound = nil
+local timeTillCooked = 120
+local timeTillPerfect = timeTillCooked + 10
+local timeTillBurnt = timeTillPerfect + 1
 
 if SERVER then
 	-- function to make it easy to send networked vars to client
@@ -48,21 +51,22 @@ if SERVER then
 	-- called when someone presses "E" on it
 	function ENT:Use(activator)
 		-- if product is ready
-		if self.Meth_Cooking and self.Meth_CookTime >= 120 then
+		if self.Meth_Cooking and self.Meth_CookTime >= timeTillCooked then
+			-- spawn a meth crystal
+			if self.Meth_CookTime == timeTillPerfect then
+				local meth = ents.Create("meth_crystal_pure")
+				meth:SetPos(self:GetPos() + Vector(0, 0, 50))
+				meth:Spawn()
+			else
+				local meth = ents.Create("meth_crystal_norm")
+				meth:SetPos(self:GetPos() + Vector(0, 0, 50))
+				meth:Spawn()
+			end
+		
 			-- stop cooking
 			self.Meth_Cooking = false
 			self.Meth_CookTime = 0
-			
-			-- spawn a meth crystal
-			local meth = ents.Create("meth_crystal_norm")
-			meth:SetPos(self:GetPos() + Vector(0, 0, 50))
-			meth:Spawn()
-			
-			-- enable physics
-			local phys = meth:GetPhysicsObject()
-			if IsValid(phys) then
-				phys:Wake()
-			end
+			self:StopLoopingSound(self.Meth_CookingSound)
 			
 			-- network the variables, needed for the client to see the 3d2d text
 			self:SendMethVarsToClient()
@@ -101,10 +105,14 @@ if SERVER then
 		-- set next think time
 		self:NextThink(CurTime() + 1)
 		
-		if self.Meth_Cooking and self.Meth_CookTime >= 120 then
+		-- burn at 132 seconds
+		if self.Meth_Cooking and self.Meth_CookTime >= timeTillBurnt then
+			-- stop cooking
+			self.Meth_Cooking = false
+			self.Meth_CookTime = 0
 			self:StopLoopingSound(self.Meth_CookingSound)
 		-- only cook while its ON and while the timer is less than 120
-		elseif self.Meth_Cooking and self.Meth_CookTime < 120 then
+		elseif self.Meth_Cooking and self.Meth_CookTime < timeTillBurnt then
 			self.Meth_CookTime = self.Meth_CookTime + 1
 			-- effects
 			local effectData = EffectData()
@@ -199,17 +207,31 @@ if CLIENT then
 					Color(0, 0, 0, 255)
 				)
 			cam.End3D2D()
-			cam.Start3D2D(pos - Vector(0, 0, 15), ang, 0.1)
-				draw.SimpleTextOutlined(
-					"Progess: " .. math.floor(100 / 120 * cookTime) .. "%",
-					"DermaLarge",
-					0, 0,
-					Color(135, 206, 250),
-					TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER,
-					2,
-					Color(0, 0, 0, 255)
-				)
-			cam.End3D2D()
+			if cookTime == timeTillPerfect then
+				cam.Start3D2D(pos - Vector(0, 0, 15), ang, 0.1)
+					draw.SimpleTextOutlined(
+						"PERFECT!!! " .. math.floor(100 / timeTillCooked * cookTime) .. "%",
+						"DermaLarge",
+						0, 0,
+						Color(0, 255, 255),
+						TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER,
+						2,
+						Color(0, 0, 0, 255)
+					)
+				cam.End3D2D()
+			else
+				cam.Start3D2D(pos - Vector(0, 0, 15), ang, 0.1)
+					draw.SimpleTextOutlined(
+						"Progess: " .. math.floor(100 / timeTillCooked * cookTime) .. "%",
+						"DermaLarge",
+						0, 0,
+						Color(135, 206, 250),
+						TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER,
+						2,
+						Color(0, 0, 0, 255)
+					)
+				cam.End3D2D()
+			end
 		end
 	end
 end
