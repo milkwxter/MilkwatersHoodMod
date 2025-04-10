@@ -13,6 +13,8 @@ if CLIENT then
 
 		CPanel:AddControl( "Header", { Description = "#tool.ballsocket.help" } )
 
+		CPanel:Button("Spawn an airdrop at a random spawnpoint", "airdrop_spawn_randomly")
+
 		CPanel:Button("Remove all spawnpoints", "airdrop_clear_spawnpoints")
 	end
 end
@@ -33,6 +35,62 @@ if SERVER then
 
         ply:ChatPrint("Spawnpoints file has been cleared!")
     end)
+	
+	-- clear spawn points command
+    concommand.Add("airdrop_spawn_randomly", function(ply, cmd, args)
+        if not ply:IsAdmin() then
+            ply:ChatPrint("You must be an admin to spawn an airdrop!")
+            return
+        end
+
+        SpawnAirdrop()
+    end)
+	
+	function SpawnAirdrop()
+		spawnpoints = util.JSONToTable(file.Read("airdrop_spawnpoints.txt", "DATA"))
+		if spawnpoints and #spawnpoints > 0 then
+			local randomIndex = math.random(#spawnpoints) -- Picks a random index
+			local chosenSpawn = spawnpoints[randomIndex]  -- Gets the spawn point at that index
+
+			-- Extract position from the spawn point
+			local positionData = string.Explode(" ", tostring(chosenSpawn.position))
+			if #positionData == 3 then
+				local x = tonumber(positionData[1])
+				local y = tonumber(positionData[2])
+				local z = tonumber(positionData[3])
+
+				-- perform epic trace
+				local traceData = {}
+				traceData.start = Vector(x, y, z)
+				traceData.endpos = Vector(x, y, 10000)
+				traceData.mask = MASK_SOLID_BRUSHONLY
+
+				local traceResult = util.TraceLine(traceData)
+				if traceResult.Hit then
+					local highZ = traceResult.HitPos.z
+
+					-- create the airdrop
+					local airDrop = ents.Create("air_drop")
+					if IsValid(airDrop) then
+						airDrop:SetPos(Vector(x, y, highZ))
+						airDrop:Spawn()
+						print("[AIRDROPS] Airdrop spawned at highest surface!")
+					else
+						print("[AIRDROPS] Failed to spawn air_drop entity!")
+					end
+				else
+					print("[AIRDROPS] Could not find a valid surface at this spawn point!")
+				end
+			else
+				print("[AIRDROPS] Invalid position format for spawn point!")
+			end
+		else
+			print("[AIRDROPS] No spawn points found!")
+		end
+	end
+
+
+
 
 	function TOOL:LeftClick(trace)
 		if not trace.Hit then return false end

@@ -137,12 +137,15 @@ if SERVER then
         if IsValid(ent) then
             if ent:GetClass() == "meth_acid" then
 				self.Meth_HydrochloricAcid = self.Meth_HydrochloricAcid + 200
+				self:EmitSound("pot_splash.wav")
 				ent:Remove()
 			elseif ent:GetClass() == "meth_matches" then
 				self.Meth_Matchsticks = self.Meth_Matchsticks + 34
+				self:EmitSound("pot_splash.wav")
 				ent:Remove()
 			elseif ent:GetClass() == "meth_sudo" then
 				self.Meth_Sudafed = self.Meth_Sudafed + 50
+				self:EmitSound("pot_splash.wav")
 				ent:Remove()
 			end
         end
