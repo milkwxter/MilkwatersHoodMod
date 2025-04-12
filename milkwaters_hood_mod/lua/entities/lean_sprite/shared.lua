@@ -13,7 +13,7 @@ if SERVER then
 	-- called when you spawn it
 	function ENT:Initialize()
 		-- initialize model
-		self:SetModel("models/props_junk/garbage_glassbottle001a.mdl")
+		self:SetModel("models/lean/SprCan01a.mdl")
 		self:PhysicsInit(SOLID_VPHYSICS)
 		self:SetMoveType(MOVETYPE_VPHYSICS)
 		self:SetSolid(SOLID_VPHYSICS)
