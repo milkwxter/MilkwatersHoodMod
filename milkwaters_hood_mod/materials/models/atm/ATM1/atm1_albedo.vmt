@@ -1,0 +1,11 @@
+"vertexlitgeneric"
+{
+	"$basetexture" "models\atm\ATM1\atm1_albedo"
+	"$bumpmap" "models\atm\ATM1\atm1_albedo_normal"
+	"$phong"     "1"
+ 	"$phongexponent"   "33"
+ 	"$phongboost"   "1.1"
+ 	"$phongfresnelranges"   "[.5 .5 .5]"
+	"$halflambert" 1
+	"$surfaceprop" "metalvent"
+}

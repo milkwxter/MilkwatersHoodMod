@@ -17,8 +17,9 @@ ENT.Meth_Cooking = false
 ENT.Meth_CookTime = 0
 ENT.Meth_CookingSound = nil
 local timeTillCooked = 120
-local timeTillPerfect = timeTillCooked + 10
+local timeTillPerfect = timeTillCooked + 12
 local timeTillBurnt = timeTillPerfect + 1
+local hasProducedNormalParticles = false
 
 if SERVER then
 	-- function to make it easy to send networked vars to client
@@ -118,6 +119,21 @@ if SERVER then
 			local effectData = EffectData()
 			effectData:SetOrigin(self:GetPos())
 			util.Effect("meth_smoke", effectData)
+		end
+		
+		-- special effects
+		print(math.floor(100 / timeTillCooked * self.Meth_CookTime))
+		if math.floor(100 / timeTillCooked * self.Meth_CookTime) == 100 and hasProducedNormalParticles == false then
+			local effectData = EffectData()
+			effectData:SetOrigin(self:GetPos())
+			util.Effect("meth_boom_norm", effectData)
+			self:EmitSound("crystallize.wav")
+			hasProducedNormalParticles = true
+		elseif math.floor(100 / timeTillCooked * self.Meth_CookTime) == 110 then
+			local effectData = EffectData()
+			effectData:SetOrigin(self:GetPos())
+			util.Effect("meth_boom_blue", effectData)
+			self:EmitSound("crystallize.wav")
 		end
 		
 		-- network the variables, needed for the client to see the 3d2d text

@@ -88,7 +88,7 @@ if CLIENT then
 		local health = self:GetNWInt("AirDropHealth", 0)
 
 		-- setup where the text appears
-		local pos = self:GetPos() + Vector(0, 0, 80)
+		local pos = self:GetPos() + Vector(0, 0, 40)
 		local ang = Angle(0, LocalPlayer():EyeAngles().y - 90, 90)
 
 		-- draw the main text
