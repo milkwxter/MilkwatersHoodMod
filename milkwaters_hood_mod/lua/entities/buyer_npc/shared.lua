@@ -19,6 +19,7 @@ if SERVER then
 		{name = "Stolen Cash", class = "money_pile", price = 150},
 		{name = "Meth Bag", class = "meth_crystal_norm", price = 750},
 		{name = "Blue Sky", class = "meth_crystal_pure", price = 1100},
+		{name = "Lean Cup", class = "lean_cup_full", price = 90},
 	}
 	
 	-- initialize entity

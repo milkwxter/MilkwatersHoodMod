@@ -1,0 +1,18 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/lean/codeine_cup_diffuse"	
+	"$bumpmap" "models/lean/codeine_cup_normal"
+	"$phongexponent" "40"
+	"$model" "1"
+
+	"$phong" "1"
+	"$halflambert" "0"
+	"$phongboost" "1.2"	
+	"$phongtint" "[0 0 0]"
+	"$phongalbedotint" "0"
+	"$phongfresnelranges" "[1 1 1]"
+
+	"$rimlight" "1"
+	"$rimlightexponent" "40"
+	"$rimlightboost" "0.33"
+}
