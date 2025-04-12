@@ -49,6 +49,14 @@ if SERVER then
         end
 	end
 	
+	-- called when someone removes it
+	function ENT:OnRemove()
+		-- clear sound if it exists
+		if self.Meth_CookingSound then
+			self:StopLoopingSound(self.Meth_CookingSound)
+		end
+	end
+	
 	-- called when someone presses "E" on it
 	function ENT:Use(activator)
 		-- if product is ready
