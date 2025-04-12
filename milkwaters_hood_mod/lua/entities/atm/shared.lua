@@ -29,6 +29,7 @@ if SERVER then
         local phys = self:GetPhysicsObject()
         if IsValid(phys) then
             phys:Wake()
+			phys:SetMass( 500 )
         end
 	end
 	
@@ -164,7 +165,7 @@ if CLIENT then
 	
 	-- colored chat message
 	local function Notify(msg)
-		chat.AddText(Color(2, 2, 121), "Simple ATM | ", Color(255, 255, 255), msg)
+		chat.AddText(Color(44, 153, 0), "Simple ATM | ", Color(255, 255, 255), msg)
 	end
 	
 	-- recieve a message to color from the server
