@@ -1,0 +1,5 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models\chop_shop\scrap\material"
+	"$normalmap" "models\chop_shop\scrap\normalmap"
+}
